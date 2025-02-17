@@ -1,6 +1,9 @@
 <?php
 
+// Menggunakan namespace yang diperlukan untuk routing
 use Illuminate\Support\Facades\Route;
+// Mengimpor ItemController agar bisa digunakan dalam routing
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route untuk halaman utama ('/') yang akan menampilkan tampilan 'welcome'
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); // Mengembalikan tampilan welcome.blade.php
 });
+
+// Route resource untuk ItemController yang secara otomatis membuat route CRUD (index, create, store, show, edit, update, destroy)
+Route::resource('items', ItemController::class);
