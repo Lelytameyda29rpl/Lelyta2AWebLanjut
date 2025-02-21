@@ -118,8 +118,12 @@ Route::get('/user/{name?}', function ($name = 'John') {
 
 // Mendefinisikan rute GET dengan URL '/greeting'
 Route::get('/greeting', function () {
-    return view('hello', ['name' => 'Lelyta']);
+    return view('blog.hello', ['name' => 'Lelyta']);
     });
+    
+// Mendefinisikan rute GET dengan URL '/greeting'
+Route::get('/greeting', [WelcomeController::class, 
+    'greeting']);
     
 // Route resource untuk ItemController yang secara otomatis membuat route CRUD (index, create, store, show, edit, update, destroy)
 Route::resource('items', ItemController::class);
