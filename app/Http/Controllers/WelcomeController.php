@@ -17,4 +17,20 @@ class WelcomeController extends Controller
         // Mengembalikan teks "Hello World" sebagai respons langsung ketika metode ini dipanggil.
         return 'Hello World';
        }
+
+       public function greeting() {
+        // Mendefinisikan fungsi greeting() di dalam controller yang akan menangani permintaan ke halaman greeting.
+        
+            return view('blog.hello') 
+            // Mengembalikan tampilan (view) yang bernama 'hello' di dalam folder 'blog' (resources/views/blog/hello.blade.php).
+        
+                ->with('name', 'Lelyta') 
+                // Mengirimkan data ke view dengan key 'name' yang memiliki nilai 'Lelyta'.
+                // Di dalam view, variabel $name akan berisi 'Lelyta'.
+        
+                ->with('occupation', 'Astronaut'); 
+                // Mengirimkan data tambahan ke view dengan key 'occupation' yang memiliki nilai 'Astronaut'.
+                // Di dalam view, variabel $occupation akan berisi 'Astronaut'.
+        }        
+       
 }
