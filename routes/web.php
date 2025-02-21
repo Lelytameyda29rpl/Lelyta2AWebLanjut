@@ -4,6 +4,19 @@
 use Illuminate\Support\Facades\Route;
 // Mengimpor ItemController agar bisa digunakan dalam routing
 use App\Http\Controllers\ItemController;
+// Mengimpor WelcomeController agar bisa digunakan dalam routing
+use App\Http\Controllers\WelcomeController;
+// Mengimpor PageController agar bisa digunakan dalam routing
+use App\Http\Controllers\PageController;
+// Mengimpor HomeController agar bisa digunakan dalam routing
+use App\Http\Controllers\HomeController;
+// Mengimpor AboutController agar bisa digunakan dalam routing
+use App\Http\Controllers\AboutController;
+// Mengimpor ArticleController agar bisa digunakan dalam routing
+use App\Http\Controllers\ArticleController;
+// Mengimpor PhotoController agar bisa digunakan dalam routing
+use App\Http\Controllers\PhotoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,10 +35,38 @@ Route::get('/', function () {
 });
 
 // Mendefinisikan rute GET dengan URL '/hello'
-Route::get('/hello', function () { 
-    // Mengembalikan tampilan (view) dengan nama 'Hello World'
-    return ('Hello World');  
-});
+Route::get('/hello', [WelcomeController::class,'hello']);
+
+// Mendefinisikan rute GET dengan URL '/index'
+Route::get('/', [PageController::class,'index']);
+
+// Mendefinisikan rute GET dengan URL '/about'
+Route::get('/about', [PageController::class,'about']);
+
+// Mendefinisikan rute GET dengan URL '/articles'
+Route::get('/articles/{id}', [PageController::class,'articles']);
+
+// Mendefinisikan rute GET dengan URL '/'
+Route::get('/', HomeController::class);
+
+// Mendefinisikan rute GET dengan URL '/about'
+Route::get('/about', AboutController::class);
+
+// Mendefinisikan rute GET dengan URL '/article'
+Route::get('/article/{id}', ArticleController::class);
+
+// Mendefinisikan resource route untuk PhotoController
+Route::resource('photos', PhotoController::class);
+
+// Mendefinisikan resource route untuk PhotoController, tetapi hanya menggunakan metode 'index' dan 'show'
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+
+// Mendefinisikan resource route untuk PhotoController, tetapi mengecualikan metode 'create', 'store', 'update', dan 'destroy'
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
 
 // Mendefinisikan rute GET dengan URL '/hello'
 Route::get('/world', function () {
