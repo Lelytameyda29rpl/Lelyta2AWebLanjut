@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\LevelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,6 @@ Route::get('/user/{id}/name/{name}', [UserController::class, 'profile']);
 
 // Route Penjualan (POS)
 Route::get('/sales', [SalesController::class, 'index']);
+
+// Route LevelController
+Route::get('/level', [LevelController::class, 'index']);
