@@ -119,11 +119,73 @@ class UserController extends Controller
             //}
 
         // Jobsheet 4 Praktikum 2.3 Nomor 3
+        //public function index() {
+            //$userCount = UserModel::where('level_id', 2)->count();
+            //return view('user', ['data' => $userCount]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.4 Nomor 1
+        //public function index() {
+            //$user = UserModel::firstOrCreate(
+                //[
+                    //'username' => 'manager',
+                    //'nama' => 'Manager',
+                //],
+            //);
+            //return view('user', ['data' => $user]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.4 Nomor 4
+        //public function index() {
+            //$user = UserModel::firstOrCreate(
+                //[
+                    //'username' => 'manager22',
+                    //'nama' => 'Manager Dua Dua',
+                    //'password' => Hash::make('12345'),
+                    //'level_id' => 2,
+                //],
+            //);
+            //return view('user', ['data' => $user]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.4 Nomor 6
+        //public function index() {
+            //$user = UserModel::firstOrNew(
+                //[
+                    //'username' => 'manager',
+                    //'nama' => 'Manager',
+                //],
+            //);
+            //return view('user', ['data' => $user]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.4 Nomor 8
+        //public function index() {
+            //$user = UserModel::firstOrNew(
+                //[
+                    //'username' => 'manager33',
+                    //'nama' => 'Manager Tiga Tiga',
+                    //'password' => Hash::make('12345'),
+                    //'level_id' => 2,
+                //],
+            //);
+            //return view('user', ['data' => $user]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.4 Nomor 10
         public function index() {
-            $userCount = UserModel::where('level_id', 2)->count();
-            return view('user', ['data' => $userCount]);
+            $user = UserModel::firstOrNew(
+                [
+                    'username' => 'manager33',
+                    'nama' => 'Manager Tiga Tiga',
+                    'password' => Hash::make('12345'),
+                    'level_id' => 2,
+                ],
+            );
+            $user->save();
+            
+            return view('user', ['data' => $user]);
         }
         
-
 }
 
