@@ -178,7 +178,7 @@ Link hapus memiliki konfirmasi sebelum menghapus data.
 
 3. Telah dimodifikasinya file UserController.php, userModel, dan penambahan file LevelMode.php, maka berikut adalah hasilnya: 
 
-<img src="gambar/langkah 20.2 praktikum 2.6.png" width="300">
+<img src="gambar/langkah 20.2 praktikum 2.7.png" width="300">
 
 - Keterangan: Telah berhasil menampilkan data user pada tampilan berbentuk tabel.
 
