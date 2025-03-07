@@ -48,21 +48,55 @@ class UserController extends Controller
                 //return view('user', ['data' => $user]);
             //}
 
-        // Jobsheet 4
-        public function index() {
+        // Jobsheet 4 Praktikum 1
+        //public function index() {
             // tambah data user dengan Eloquent Model
-                $data = [
-                    'level_id' => '2',
-                    'username' => 'manager_tiga',
-                    'nama' => 'Manager 3',
-                    'password' => Hash::make('12345')
-                ];
+                //$data = [
+                    //'level_id' => '2',
+                    //'username' => 'manager_tiga',
+                    //'nama' => 'Manager 3',
+                    //'password' => Hash::make('12345')
+                //];
         
-                UserModel::create($data); 
+                //UserModel::create($data); 
         
                 // coba akses model UserModel
-                $user = UserModel::all();
-                return view('user', ['data' => $user]);
-            }
+                //$user = UserModel::all();
+                //return view('user', ['data' => $user]);
+            //}
+
+        // Jobsheet 4 Praktikum 2.1 Nomor 1
+        //public function index() {
+            //$user = UserModel::find(1);
+            //return view('user', ['data' => $user]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.1 Nomor 4
+        //public function index() {
+            //$user = UserModel::where('level_id', 1)->first();
+            //return view('user', ['data' => $user]);
+        //}
+
+        // Jobsheet 4 Praktikum 2.1 Nomor 6
+        //public function index() {
+            //$user = UserModel::firstWhere('level_id', 1)->first();
+            //return view('user', ['data' => $user]);
+                //}
+
+        // Jobsheet 4 Praktikum 2.1 Nomor 8
+        //public function index() {
+            //$user = UserModel::findOr(1, ['username', 'nama'], function () {
+                //abort(404);
+            //});
+            //return view('user', ['data' => $user]);
+                //}
+
+        // Jobsheet 4 Praktikum 2.1 Nomor 10
+        public function index() {
+            $user = UserModel::findOr(20, ['username', 'nama'], function () {
+                abort(404);
+            });
+            return view('user', ['data' => $user]);
+                }
 }
 
