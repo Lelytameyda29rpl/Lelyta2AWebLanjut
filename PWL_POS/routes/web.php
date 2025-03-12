@@ -24,7 +24,7 @@ Route::get('/', function () {
 });
 
 // Route Home
-Route::get('/', [HomeController::class, 'index']);
+// Route::get('/', [HomeController::class, 'index']);
 
 // Route Products (dengan prefix "category")
 Route::prefix('category')->group(function () {
@@ -58,3 +58,4 @@ Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 
 Route::get('user/hapus/{id}', [UserController::class, 'hapus']);
+
