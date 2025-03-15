@@ -315,6 +315,12 @@ return [
             'icon' => 'bi-collection',
             'topnav' => true,
         ],
+        [
+            'text' => 'Manage Barang', // add navbar manage barang
+            'url' => '/barang',
+            'icon' => 'bi-collection',
+            'topnav' => true,
+        ],
 
         // Sidebar items:
         [
