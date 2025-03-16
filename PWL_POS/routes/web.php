@@ -81,3 +81,13 @@ Route::get('/barang/edit/{id}', [BarangController::class, 'edit'])->name('barang
 Route::put('/barang/{id}', [BarangController::class, 'update'])->name('barang.update');
 
 Route::post('/barang/delete/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+
+Route::get('/level/create', [LevelController::class, 'create']);
+
+Route::post('/level', [LevelController::class, 'store']);
+
+Route::get('/level/edit/{id}', [LevelController::class, 'edit'])->name('level.edit');
+
+Route::put('/level/{id}', [LevelController::class, 'update'])->name('level.update');
+
+Route::post('/level/delete/{id}', [LevelController::class, 'destroy'])->name('level.destroy');

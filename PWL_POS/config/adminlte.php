@@ -321,6 +321,12 @@ return [
             'icon' => 'bi-collection',
             'topnav' => true,
         ],
+        [
+            'text' => 'Manage Level', // add navbar manage level
+            'url' => '/level',
+            'icon' => 'bi-collection',
+            'topnav' => true,
+        ],
 
         // Sidebar items:
         [
