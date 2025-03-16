@@ -91,3 +91,14 @@ Route::get('/level/edit/{id}', [LevelController::class, 'edit'])->name('level.ed
 Route::put('/level/{id}', [LevelController::class, 'update'])->name('level.update');
 
 Route::post('/level/delete/{id}', [LevelController::class, 'destroy'])->name('level.destroy');
+
+// Route User
+Route::get('/user/create', [UserController::class, 'create']); // menampilkan form add user
+
+Route::post('/user', [UserController::class, 'store']); // menyimpan user ke database
+
+Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit'); // menampilkan form edit user
+
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update'); // memperbarui data user
+
+Route::post('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy'); // menghapus user

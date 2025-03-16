@@ -327,6 +327,12 @@ return [
             'icon' => 'bi-collection',
             'topnav' => true,
         ],
+        [
+            'text' => 'Manage User', // add navbar manage user
+            'url' => '/user',
+            'icon' => 'bi-collection',
+            'topnav' => true,
+        ],
 
         // Sidebar items:
         [
