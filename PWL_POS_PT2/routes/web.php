@@ -8,6 +8,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\WelcomeController;
 /*
 |--------------------------------------------------------------------------
@@ -162,4 +163,22 @@ Route::group(['prefix' => 'penjualan'], function () {
     Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']); // menampilkan form konfirmasi delete penjualan ajax
     Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']); // menghapus data penjualan ajax
     Route::delete('/{id}', [PenjualanController::class, 'destroy']); // menghapus data penjualan
+});
+
+Route::group(['prefix' => 'penjualan_detail'], function () {
+    Route::get('/', [DetailPenjualanController::class, 'index']); // halaman index
+    Route::post('/list', [DetailPenjualanController::class, 'list']); // datatable ajax
+    Route::get('/create', [DetailPenjualanController::class, 'create']); // form create
+    Route::post('/', [DetailPenjualanController::class, 'store']); // simpan data
+    Route::get('/create_ajax', [DetailPenjualanController::class, 'create_ajax']); // form create ajax (modal)
+    Route::post('/ajax', [DetailPenjualanController::class, 'store_ajax']); // simpan data via ajax
+    Route::get('/{id}', [DetailPenjualanController::class, 'show']); // detail
+    Route::get('/{id}/edit', [DetailPenjualanController::class, 'edit']); // form edit
+    Route::put('/{id}', [DetailPenjualanController::class, 'update']); // update data
+    Route::get('/{id}/show_ajax', [DetailPenjualanController::class, 'show_ajax']); // detail ajax
+    Route::get('/{id}/edit_ajax', [DetailPenjualanController::class, 'edit_ajax']); // form edit ajax (modal)
+    Route::put('/{id}/update_ajax', [DetailPenjualanController::class, 'update_ajax']); // update ajax
+    Route::get('/{id}/delete_ajax', [DetailPenjualanController::class, 'confirm_ajax']); // konfirmasi hapus ajax
+    Route::delete('/{id}/delete_ajax', [DetailPenjualanController::class, 'delete_ajax']); // hapus data ajax
+    Route::delete('/{id}', [DetailPenjualanController::class, 'destroy']); // hapus data
 });
