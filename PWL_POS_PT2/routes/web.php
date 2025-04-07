@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\WelcomeController;
 /*
 |--------------------------------------------------------------------------
@@ -143,4 +144,22 @@ Route::group(['prefix' => 'stok'], function () {
     Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']); // menampilkan form konfirmasi delete stok ajax
     Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']); // menghapus data stok ajax
     Route::delete('/{id}', [StokController::class, 'destroy']); // menghapus data stok
+});
+
+Route::group(['prefix' => 'penjualan'], function () {
+    Route::get('/', [PenjualanController::class, 'index']); // menampilkan halaman awal penjualan
+    Route::post('/list', [PenjualanController::class, 'list']); // menampilkan data penjualan dalam bentuk json untuk datatables
+    Route::get('/create', [PenjualanController::class, 'create']); // menampilkan halaman form tambah penjualan
+    Route::post('/', [PenjualanController::class, 'store']); // menyimpan data penjualan baru
+    Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']); // menampilkan halaman form tambah penjualan ajax
+    Route::post('/ajax', [PenjualanController::class, 'store_ajax']); // menyimpan data penjualan baru ajax
+    Route::get('/{id}', [PenjualanController::class, 'show']); // menampilkan detail penjualan
+    Route::get('/{id}/edit', [PenjualanController::class, 'edit']); // menampilkan halaman form edit penjualan
+    Route::put('/{id}', [PenjualanController::class, 'update']); // menyimpan perubahan data penjualan
+    Route::get('/{id}/show_ajax', [PenjualanController::class, 'show_ajax']); // menampilkan detail penjualan ajax
+    Route::get('/{id}/edit_ajax', [PenjualanController::class, 'edit_ajax']); // menampilkan halaman form edit penjualan ajax
+    Route::put('/{id}/update_ajax', [PenjualanController::class, 'update_ajax']); // menyimpan perubahan data penjualan ajax
+    Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']); // menampilkan form konfirmasi delete penjualan ajax
+    Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']); // menghapus data penjualan ajax
+    Route::delete('/{id}', [PenjualanController::class, 'destroy']); // menghapus data penjualan
 });
