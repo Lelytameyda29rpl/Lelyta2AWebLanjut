@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\StokController;
 use App\Http\Controllers\WelcomeController;
 /*
 |--------------------------------------------------------------------------
@@ -124,4 +125,22 @@ Route::group(['prefix' => 'barang'], function () {
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']); // menampilkan form konfirmasi delete barang ajax
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']); // menghapus data barang ajax
     Route::delete('/{id}', [BarangController::class, 'destroy']); // menghapus data barang
+});
+
+Route::group(['prefix' => 'stok'], function () {
+    Route::get('/', [StokController::class, 'index']); // menampilkan halaman awal stok
+    Route::post('/list', [StokController::class, 'list']); // menampilkan data stok dalam bentuk json untuk datatables
+    Route::get('/create', [StokController::class, 'create']); // menampilkan halaman form tambah stok
+    Route::post('/', [StokController::class, 'store']); // menyimpan data stok baru
+    Route::get('/create_ajax', [StokController::class, 'create_ajax']); // menampilkan halaman form tambah stok ajax
+    Route::post('/ajax', [StokController::class, 'store_ajax']); // menyimpan data stok baru ajax
+    Route::get('/{id}', [StokController::class, 'show']); // menampilkan detail stok
+    Route::get('/{id}/edit', [StokController::class, 'edit']); // menampilkan halaman form edit stok
+    Route::put('/{id}', [StokController::class, 'update']); // menyimpan perubahan data stok
+    Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']); // menampilkan detail stok ajax
+    Route::get('/{id}/edit_ajax', [StokController::class, 'edit_ajax']); // menampilkan halaman form edit stok ajax
+    Route::put('/{id}/update_ajax', [StokController::class, 'update_ajax']); // menyimpan perubahan data stok ajax
+    Route::get('/{id}/delete_ajax', [StokController::class, 'confirm_ajax']); // menampilkan form konfirmasi delete stok ajax
+    Route::delete('/{id}/delete_ajax', [StokController::class, 'delete_ajax']); // menghapus data stok ajax
+    Route::delete('/{id}', [StokController::class, 'destroy']); // menghapus data stok
 });
