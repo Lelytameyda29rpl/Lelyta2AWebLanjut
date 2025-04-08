@@ -9,6 +9,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
 /*
 |--------------------------------------------------------------------------
@@ -181,4 +182,16 @@ Route::group(['prefix' => 'penjualan_detail'], function () {
     Route::get('/{id}/delete_ajax', [DetailPenjualanController::class, 'confirm_ajax']); // konfirmasi hapus ajax
     Route::delete('/{id}/delete_ajax', [DetailPenjualanController::class, 'delete_ajax']); // hapus data ajax
     Route::delete('/{id}', [DetailPenjualanController::class, 'destroy']); // hapus data
+});
+
+// jobsheet 7
+Route::pattern('id', '[0-9]+'); // artinya ketika ada parameter (id), maka harus berupa angka
+ 
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'postlogin']);
+Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
+
+Route::middleware(['auth'])->group(function () { // artinya semua route di dalam group ini harus login dulu
+
+    Route::get('/', [WelcomeController::class, 'index']);
 });
