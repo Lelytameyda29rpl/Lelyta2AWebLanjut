@@ -68,13 +68,13 @@
          <li class="nav-item">
          <a href="{{ url('/penjualan_detail') }}" class="nav-link {{ ($activeMenu ==
          'penjualan_detail')? 'active' : '' }} ">
-           <i class="nav-icon fas fa-cash-register"></i>
+           <i class="nav-icon fas fa-receipt"></i>
            <p>Detail Penjualan</p>
          </a>
          </li>
             <li class="nav-item">
                 <a href="{{ url('/supplier') }}" class="nav-link {{ $activeMenu == 'supplier' ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-cubes"></i>
+                    <i class="nav-icon fas fa-dolly"></i>
                     <p>Data Supplier</p>
                 </a>
        </li>
