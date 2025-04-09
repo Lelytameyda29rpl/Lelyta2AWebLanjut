@@ -1,12 +1,13 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="card card-outline card-primary">
+<div class="card">
     <div class="card-header">
-        <h3 class="card-title">{{ $page->title }}</h3>
+        <h3 class="card-title">Daftar Stok</h3>
         <div class="card-tools">
-            <a class="btn btn-sm btn-primary mt-1" href="{{ url('stok/create') }}">Tambah</a>
-            <button onclick="modalAction('{{ url('/stok/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+             <button onclick="modalAction('{{ url('/stok/import') }}')" class="btn btn-info">Import Stok</button>
+             <a class="btn btn-primary" href="{{ url('stok/create') }}">Tambah Data</a>
+             <button onclick="modalAction('{{ url('stok/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
         </div>
     </div>
     <div class="card-body">
@@ -17,11 +18,11 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <div class="row">
-            <div class="col-md-12">
+        <div class="row mb-3">
+             <div class="col-md-6">
                 <div class="form-group row">
-                    <label class="col-1 control-label col-form-label">Filter:</label>
-                    <div class="col-3">
+                    <label class="col-sm-3 col-form-label">Filter:</label>
+                    <div class="col-sm-9">
                         <select class="form-control" name="barang_id" id="barang_id">
                             <option value="">- Semua Barang -</option>
                             @foreach($barang as $item)
@@ -46,12 +47,13 @@
         <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Barang</th>
-                    <th>User</th>
-                    <th>Tanggal Stok</th>
-                    <th>Jumlah Stok</th>
-                    <th>Aksi</th>
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">Nama Barang</th>
+                    <th style="text-align: center;">User</th>
+                    <th style="text-align: center;">Tanggal Stok</th>
+                    <th style="text-align: center;">Jumlah Stok</th>
+                    <th style="text-align: center;">Aksi</th>
                 </tr>
             </thead>
         </table>
@@ -72,6 +74,7 @@
     var dataStok;
         $(document).ready(function() {
            dataStok = $('#table_stok').DataTable({
+                processing: true,
                 serverSide: true,
                 ajax: {
                     "url": "{{ url('stok/list') }}",
@@ -86,36 +89,49 @@
                 {
                     data: "DT_RowIndex",
                     className: "text-center",
+                    width: "4%",
                     orderable: false,
                     searchable: false
                 },
                 {
+                     data: "stok_id",
+                     className: "text-center",
+                     width: "7%",
+                     orderable: true,
+                     searchable: false
+                },
+                {
                     data: "barang_nama",
                     className: "",
+                    width: "10%",
                     orderable: true,
                     searchable: true
                 },
                 {
                     data: "nama",
                     className: "",
+                    width: "10%",
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: "stok_tanggal",
                     className: "",
+                    width: "10%",
                     orderable: true,
                     searchable: true
                 },
                 {
                     data: "stok_jumlah",
-                    className: "text-right",
+                    className: "",
+                    width: "10%",
                     orderable: true,
                     searchable: true
                 },
                 {
                     data: "aksi",
                     className: "text-center",
+                    width: "20%",
                     orderable: false,
                     searchable: false
                 }
