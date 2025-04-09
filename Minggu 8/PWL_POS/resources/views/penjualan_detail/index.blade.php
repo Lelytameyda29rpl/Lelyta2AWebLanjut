@@ -6,7 +6,7 @@
             <h3 class="card-title">Daftar Detail Penjualan</h3>
             <div class="card-tools">
              <button onclick="modalAction('{{ url('/penjualan_detail/import') }}')" class="btn btn-info">Import Detail Penjualan</button>
-             <a class="btn btn-primary" href="{{ url('penjualan_detail/create') }}">Tambah Data</a>
+             <a href="{{ url('/penjualan_detail/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Detail Penjualan (Excel)</a>
              <button onclick="modalAction('{{ url('penjualan_detail/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
             </div>
         </div>
@@ -121,7 +121,7 @@
                     },
                     {
                         data: "jumlah",
-                        className: "",
+                        className: "text-center",
                         width: "10%",
                         orderable: true,
                         searchable: true
@@ -129,7 +129,7 @@
                     {
                         data: "aksi",
                         className: "text-center",
-                        width: "20%",
+                        width: "10%",
                         orderable: false,
                         searchable: false
                     }

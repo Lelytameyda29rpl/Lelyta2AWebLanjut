@@ -6,7 +6,7 @@
         <h3 class="card-title">Daftar Kategori</h3>
             <div class="card-tools">
                  <button onclick="modalAction('{{ url('/kategori/import') }}')" class="btn btn-info">Import Kategori</button>
-                 <a class="btn btn-primary" href="{{ url('kategori/create') }}">Tambah Data</a>
+                 <a href="{{ url('/kategori/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Kategori (Excel)</a>
                  <button onclick="modalAction('{{ url('/kategori/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>      
             </div>
             </div>
@@ -22,7 +22,7 @@
                 <thead>
                     <tr>
                     <th style="text-align: center;">No</th>
-                         <th style="text-align: center;">Id Kategori</th>
+                         <th style="text-align: center;">ID Kategori</th>
                          <th style="text-align: center;">Kode Kategori</th>
                          <th style="text-align: center;">Nama Kategori</th>
                          <th style="text-align: center;">Aksi</th>
@@ -63,27 +63,28 @@
                  {
                      data: "kategori_id",
                      className: "text-center",
-                     width: "10%",
+                     width: "7%",
                      orderable: true,
                      searchable: false
                  },
                  {
                      data: "kategori_kode",
                      className: "",
-                     width: "15%",
+                     width: "10%",
                      orderable: true,
                      searchable: true
                  },
                  {
                      data: "kategori_nama",
                      className: "",
-                     width: "40%",
+                     width: "10%",
                      orderable: true,
                      searchable: true
                  },
                  {
                      data: "aksi",
                      className: "text-center",
+                     width: "10%",
                      orderable: false,
                      searchable: false
                  }

@@ -6,8 +6,9 @@
             <h3 class="card-title">Daftar Penjualan</h3>
             <div class="card-tools">
                  <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info">Import Penjualan</button>
-                 <a class="btn btn-primary" href="{{ url('penjualan/create') }}">Tambah Data</a>
+                 <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Penjualan (Excel)</a>
                  <button onclick="modalAction('{{ url('penjualan/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
+            </div>
         </div>
         <div class="card-body">
             @if (session('success'))
@@ -117,7 +118,7 @@
                     {
                         data: "aksi",
                         className: "text-center",
-                        width: "20%",
+                        width: "10%",
                         orderable: false,
                         searchable: false
                     }

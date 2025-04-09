@@ -6,7 +6,7 @@
         <h3 class="card-title">Daftar Stok</h3>
         <div class="card-tools">
              <button onclick="modalAction('{{ url('/stok/import') }}')" class="btn btn-info">Import Stok</button>
-             <a class="btn btn-primary" href="{{ url('stok/create') }}">Tambah Data</a>
+             <a href="{{ url('/stok/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Stok (Excel)</a>
              <button onclick="modalAction('{{ url('stok/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
         </div>
     </div>
@@ -48,9 +48,9 @@
             <thead>
                 <tr>
                     <th style="text-align: center;">No</th>
-                    <th style="text-align: center;">No</th>
+                    <th style="text-align: center;">ID Stok</th>
                     <th style="text-align: center;">Nama Barang</th>
-                    <th style="text-align: center;">User</th>
+                    <th style="text-align: center;">Nama User</th>
                     <th style="text-align: center;">Tanggal Stok</th>
                     <th style="text-align: center;">Jumlah Stok</th>
                     <th style="text-align: center;">Aksi</th>
@@ -123,7 +123,7 @@
                 },
                 {
                     data: "stok_jumlah",
-                    className: "",
+                    className: "text-center",
                     width: "10%",
                     orderable: true,
                     searchable: true
@@ -131,7 +131,7 @@
                 {
                     data: "aksi",
                     className: "text-center",
-                    width: "20%",
+                    width: "10%",
                     orderable: false,
                     searchable: false
                 }

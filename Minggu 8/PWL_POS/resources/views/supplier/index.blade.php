@@ -6,7 +6,7 @@
             <h3 class="card-title">Daftar Supplier</h3>
             <div class="card-tools">
                  <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn btn-info">Import Supplier</button>
-                 <a class="btn btn-primary" href="{{ url('supplier/create') }}">Tambah Data</a>
+                 <a href="{{ url('/supplier/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Supplier (Excel)</a>
                  <button onclick="modalAction('{{ url('supplier/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
             </div>
         </div>
@@ -63,7 +63,7 @@
                  {
                      data: "supplier_id",
                      className: "text-center",
-                     width: "10%",
+                     width: "7%",
                      orderable: true,
                      searchable: false
                  },
@@ -77,20 +77,21 @@
                  {
                      data: "supplier_nama",
                      className: "",
-                     width: "20%",
+                     width: "10%",
                      orderable: true,
                      searchable: true
                  },
                  {
                      data: "supplier_alamat",
                      className: "",
-                     width: "30%",
+                     width: "10%",
                      orderable: true,
                      searchable: true
                  },
                  {
                      data: "aksi",
                      className: "text-center",
+                     width: "10%",
                      orderable: false,
                      searchable: false
                  }

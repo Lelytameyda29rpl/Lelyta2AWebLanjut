@@ -39,7 +39,7 @@
               <thead>
                  <tr>
                      <th>No</th>
-                     <th>Id Barang</th>
+                     <th>ID Barang</th>
                      <th>Kode Barang</th>
                      <th>Nama Barang</th>
                      <th>Kategori</th>

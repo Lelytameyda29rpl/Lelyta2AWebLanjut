@@ -348,4 +348,58 @@ class StokController extends Controller
         }
         return redirect('/');
     }
+
+    public function export_excel()
+    {
+        // ambil data stok yang akan di export
+        $stok = StokModel::select('barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+            ->orderBy('stok_id')
+            ->with('barang', 'user')
+            ->get();
+
+        // load library excel
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Barang');
+        $sheet->setCellValue('C1', 'Nama User');
+        $sheet->setCellValue('D1', 'Tanggal Stok');
+        $sheet->setCellValue('E1', 'Jumlah Stok');
+
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
+
+        $no = 1; // nomor data dimulai dari 1
+        $baris = 2; // baris data dimulai dari baris ke 2
+        foreach ($stok as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->barang->barang_nama); // ambil nama barang
+            $sheet->setCellValue('C' . $baris, $value->user->nama); // ambil nama user
+            $sheet->setCellValue('D' . $baris, $value->stok_tanggal); 
+            $sheet->setCellValue('E' . $baris, $value->stok_jumlah); 
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'E') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
+        }
+
+        $sheet->setTitle('Data Stok'); // set title sheet
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Stok_' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    }
 }

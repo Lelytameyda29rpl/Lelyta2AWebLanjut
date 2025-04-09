@@ -6,7 +6,7 @@
             <h3 class="card-title">Daftar Level</h3>
             <div class="card-tools">
                  <button onclick="modalAction('{{ url('/level/import') }}')" class="btn btn-info">Import Level</button>
-                 <a class="btn btn-primary" href="{{ url('level/create') }}">Tambah Data</a>
+                 <a href="{{ url('/level/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Level (Export)</a>
                  <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
             </div>
             </div>
@@ -61,27 +61,28 @@
                  {
                      data: "level_id",
                      className: "text-center",
-                     width: "10%",
+                     width: "7%",
                      orderable: true,
                      searchable: false
                  },
                  {
                      data: "level_kode",
                      className: "",
-                     width: "20%",
+                     width: "10%",
                      orderable: true,
                      searchable: true
                  },
                  {
                      data: "level_nama",
                      className: "",
-                     width: "40%",
+                     width: "10%",
                      orderable: true,
                      searchable: true
                  },
                  {
                      data: "aksi",
                      className: "text-center",
+                     width: "10%",
                      orderable: false,
                      searchable: false
                  }

@@ -405,5 +405,59 @@ class DetailPenjualanController extends Controller
         }
         return redirect('/');
     }
+
+    public function export_excel()
+    {
+        // ambil data detail penjualan yang akan di export
+        $penjualan_detail = DetailPenjualanModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+            ->orderBy('detail_id')
+            ->with('penjualan', 'barang')
+            ->get();
+
+        // load library excel
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
+
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Kode Penjualan');
+        $sheet->setCellValue('C1', 'Nama Barang');
+        $sheet->setCellValue('D1', 'Harga');
+        $sheet->setCellValue('E1', 'Jumlah');
+
+        $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
+
+        $no = 1; // nomor data dimulai dari 1
+        $baris = 2; // baris data dimulai dari baris ke 2
+        foreach ($penjualan_detail as $key => $value) {
+            $sheet->setCellValue('A' . $baris, $no);
+            $sheet->setCellValue('B' . $baris, $value->penjualan->penjualan_kode); // ambil kode penjualan
+            $sheet->setCellValue('C' . $baris, $value->barang->barang_nama); // ambil nama barang
+            $sheet->setCellValue('D' . $baris, $value->harga); 
+            $sheet->setCellValue('E' . $baris, $value->jumlah); 
+            $baris++;
+            $no++;
+        }
+
+        foreach (range('A', 'E') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
+        }
+
+        $sheet->setTitle('Data Detail Penjualan'); // set title sheet
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $filename = 'Data Detail Penjualan_' . date('Y-m-d H:i:s') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Cache-Control: max-age=1');
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+        header('Cache-Control: cache, must-revalidate');
+        header('Pragma: public');
+
+        $writer->save('php://output');
+        exit;
+    }
 }
   

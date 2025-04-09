@@ -6,7 +6,7 @@
          <h3 class="card-title">Daftar User</h3>
          <div class="card-tools">
              <button onclick="modalAction('{{ url('/user/import') }}')" class="btn btn-info">Import User</button>
-             <a class="btn btn-primary" href="{{ url('user/create') }}">Tambah Data</a>
+             <a href="{{ url('/user/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export User (Excel)</a>
              <button onclick="modalAction('{{ url('user/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
          </div>
      </div>
@@ -37,7 +37,7 @@
              <thead>
                  <tr>
                  <th style="text-align: center;">No</th>
-                     <th style="text-align: center;">ID Pengguna</th>
+                     <th style="text-align: center;">ID User</th>
                      <th style="text-align: center;">Username</th>
                      <th style="text-align: center;">Nama</th>
                      <th style="text-align: center;">Level Pengguna</th>
@@ -97,7 +97,7 @@
                  {
                      data: "nama",
                      className: "",
-                     width: "30%",
+                     width: "20%",
                      orderable: true,
                      searchable: true
                  },
