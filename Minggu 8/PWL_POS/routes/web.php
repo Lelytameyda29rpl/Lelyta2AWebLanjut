@@ -212,6 +212,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [LevelController::class, 'import']); // menampilkan halaman form upload excel level ajax
         Route::post('/import_ajax', [LevelController::class, 'import_ajax']); // menyimpan import excel level ajax
         Route::get('/export_excel', [LevelController::class, 'export_excel']); // menampilkan halaman form export excel level ajax
+        Route::get('/export_pdf', [LevelController::class, 'export_pdf']); // menampilkan halaman form export pdf level
     });
     
     // route User
@@ -229,6 +230,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [UserController::class, 'import']); // menampilkan halaman form upload excel user ajax
         Route::post('/import_ajax', [UserController::class, 'import_ajax']); // menyimpan import excel user ajax
         Route::get('/export_excel', [UserController::class, 'export_excel']); // menampilkan halaman form export excel user ajax
+        Route::get('/export_pdf', [UserController::class, 'export_pdf']); // menampilkan halaman form export pdf user
     });
 
     // route Kategori
@@ -246,6 +248,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [KategoriController::class, 'import']); // menampilkan halaman form upload excel kategori ajax
         Route::post('/import_ajax', [KategoriController::class, 'import_ajax']); // menyimpan import excel kategori ajax
         Route::get('/export_excel', [KategoriController::class, 'export_excel']); // menampilkan halaman form export excel kategori ajax
+        Route::get('/export_pdf', [KategoriController::class, 'export_pdf']); // menampilkan halaman form export pdf kategori
     });
 
     // route Barang
@@ -281,6 +284,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [SupplierController::class, 'import']); // menampilkan halaman form upload excel supplier ajax
         Route::post('/import_ajax', [SupplierController::class, 'import_ajax']); // menyimpan import excel supplier ajax
         Route::get('/export_excel', [SupplierController::class, 'export_excel']); // menampilkan halaman form export excel supplier ajax
+        Route::get('/export_pdf', [SupplierController::class, 'export_pdf']); // menampilkan halaman form export pdf supplier
     });
 
     // route Stok
@@ -298,6 +302,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [StokController::class, 'import']); // menampilkan halaman form upload excel stok ajax
         Route::post('/import_ajax', [StokController::class, 'import_ajax']); // menyimpan import excel stok ajax
         Route::get('/export_excel', [StokController::class, 'export_excel']); // menampilkan halaman form export excel stok ajax
+        Route::get('/export_pdf', [StokController::class, 'export_pdf']); // menampilkan halaman form export pdf stok
     });
 
     // route Penjualan
@@ -315,6 +320,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [PenjualanController::class, 'import']); // menampilkan halaman form upload excel penjualan ajax
         Route::post('/import_ajax', [PenjualanController::class, 'import_ajax']); // menyimpan import excel penjualan ajax
         Route::get('/export_excel', [PenjualanController::class, 'export_excel']); // menampilkan halaman form export excel penjualan ajax
+        Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']); // menampilkan halaman form export pdf penjualan
     });
 
     // route Detail Penjualan
@@ -332,5 +338,6 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::get('/import', [DetailPenjualanController::class, 'import']); // menampilkan halaman form upload excel detail penjualan ajax
         Route::post('/import_ajax', [DetailPenjualanController::class, 'import_ajax']); // menyimpan import excel detail penjualan ajax
         Route::get('/export_excel', [DetailPenjualanController::class, 'export_excel']); // menampilkan halaman form export excel detail penjualan ajax
+        Route::get('/export_pdf', [DetailPenjualanController::class, 'export_pdf']); // menampilkan halaman form export pdf detail penjualan
     });
 });

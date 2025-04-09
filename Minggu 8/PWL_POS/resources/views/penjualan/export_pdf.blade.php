@@ -79,30 +79,28 @@
          </tr>
      </table>
  
-     <h3 class="text-center">LAPORAN DATA BARANG</h3>
+     <h3 class="text-center">LAPORAN DATA PENJUALAN</h3>
  
      <table class="border-all">
          <thead>
              <tr>
-                 <th class="text-center">No</th>
-                 <th class="text-center">ID Barang</th>
-                 <th class="text-center">Kode Barang</th>
-                 <th class="text-center">Nama Barang</th>
-                 <th class="text-center">Harga Beli</th>
-                 <th class="text-center">Harga Jual</th>
-                 <th class="text-center">Kategori</th>
+                        <th class="text-center">No</th>
+                        <th class="text-center">ID Penjualan</th>
+                        <th class="text-center">Nama User</th>
+                        <th class="text-center">Pembeli</th>
+                        <th class="text-center">Kode Penjualan</th>
+                        <th class="text-center">Tanggal Penjualan</th>
              </tr>
          </thead>
          <tbody>
-             @foreach($barang as $b)
+             @foreach($penjualan as $b)
                  <tr>
                      <td class="text-center">{{ $loop->iteration }}</td>
-                     <td class="text-center">{{ $b->barang_id }}</td>
-                     <td class="text-center">{{ $b->barang_kode }}</td>
-                     <td>{{ $b->barang_nama }}</td>
-                     <td class="text-right">{{ number_format($b->harga_beli, 0, ',', '.') }}</td>
-                     <td class="text-right">{{ number_format($b->harga_jual, 0, ',', '.') }}</td>
-                     <td>{{ $b->kategori->kategori_nama }}</td>
+                     <td class="text-center">{{ $b->penjualan_id }}</td>
+                     <td>{{ $b->user->nama }}</td>
+                     <td>{{ $b->pembeli}}</td>
+                     <td>{{ $b->penjualan_kode }}</td>
+                     <td>{{ $b->penjualan_tanggal }}</td>
                  </tr>
              @endforeach
          </tbody>

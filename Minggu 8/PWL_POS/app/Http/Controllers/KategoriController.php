@@ -8,6 +8,7 @@ use App\Models\KategoriModel;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KategoriController extends Controller
 {
@@ -350,7 +351,7 @@ class KategoriController extends Controller
      public function export_excel()
      {
          // ambil data kategori yang akan di export
-         $kategori = KategoriModel::select('kategori_kode', 'kategori_nama')
+         $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama')
              ->orderBy('kategori_id')
              ->get();
  
@@ -359,22 +360,24 @@ class KategoriController extends Controller
          $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
  
          $sheet->setCellValue('A1', 'No');
-         $sheet->setCellValue('B1', 'Kode Kategori');
-         $sheet->setCellValue('C1', 'Nama Kategori');
+         $sheet->setCellValue('B1', 'ID Kategori');
+         $sheet->setCellValue('C1', 'Kode Kategori');
+         $sheet->setCellValue('D1', 'Nama Kategori');
  
-         $sheet->getStyle('A1:C1')->getFont()->setBold(true); // bold header
+         $sheet->getStyle('A1:D1')->getFont()->setBold(true); // bold header
  
          $no = 1; // nomor data dimulai dari 1
          $baris = 2; // baris data dimulai dari baris ke 2
          foreach ($kategori as $key => $value) {
              $sheet->setCellValue('A' . $baris, $no);
-             $sheet->setCellValue('B' . $baris, $value->kategori_kode);
-             $sheet->setCellValue('C' . $baris, $value->kategori_nama);
+             $sheet->setCellValue('B' . $baris, $value->kategori_id);
+             $sheet->setCellValue('C' . $baris, $value->kategori_kode);
+             $sheet->setCellValue('D' . $baris, $value->kategori_nama);
              $baris++;
              $no++;
          }
  
-         foreach (range('A', 'C') as $columnID) {
+         foreach (range('A', 'D') as $columnID) {
              $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
          }
  
@@ -394,5 +397,18 @@ class KategoriController extends Controller
  
          $writer->save('php://output');
          exit;
+     }
+
+     public function export_pdf()
+     {
+         $kategori = KategoriModel::select('kategori_id', 'kategori_kode', 'kategori_nama')
+         ->orderBy('kategori_id')
+         ->get();
+         $pdf = Pdf::loadView('kategori.export_pdf', ['kategori' => $kategori]);
+         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+         $pdf->render(); // Render the PDF as HTML - uncomment if you want to see the HTML output
+ 
+         return $pdf->stream('Data Kategori_' . date('Y-m-d H:i:s') . '.pdf');
      }
 }

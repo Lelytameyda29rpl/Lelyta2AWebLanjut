@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StokController extends Controller
 {
@@ -352,7 +353,7 @@ class StokController extends Controller
     public function export_excel()
     {
         // ambil data stok yang akan di export
-        $stok = StokModel::select('barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+        $stok = StokModel::select('stok_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
             ->orderBy('stok_id')
             ->with('barang', 'user')
             ->get();
@@ -362,26 +363,28 @@ class StokController extends Controller
         $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
 
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Nama Barang');
-        $sheet->setCellValue('C1', 'Nama User');
-        $sheet->setCellValue('D1', 'Tanggal Stok');
-        $sheet->setCellValue('E1', 'Jumlah Stok');
+        $sheet->setCellValue('B1', 'ID Stok');
+        $sheet->setCellValue('C1', 'Nama Barang');
+        $sheet->setCellValue('D1', 'Nama User');
+        $sheet->setCellValue('E1', 'Tanggal Stok');
+        $sheet->setCellValue('F1', 'Jumlah Stok');
 
-        $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true); // bold header
 
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($stok as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->barang->barang_nama); // ambil nama barang
-            $sheet->setCellValue('C' . $baris, $value->user->nama); // ambil nama user
-            $sheet->setCellValue('D' . $baris, $value->stok_tanggal); 
-            $sheet->setCellValue('E' . $baris, $value->stok_jumlah); 
+            $sheet->setCellValue('B' . $baris, $value->stok_id); 
+            $sheet->setCellValue('C' . $baris, $value->barang->barang_nama); // ambil nama barang
+            $sheet->setCellValue('D' . $baris, $value->user->nama); // ambil nama user
+            $sheet->setCellValue('E' . $baris, $value->stok_tanggal); 
+            $sheet->setCellValue('F' . $baris, $value->stok_jumlah); 
             $baris++;
             $no++;
         }
 
-        foreach (range('A', 'E') as $columnID) {
+        foreach (range('A', 'F') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
 
@@ -402,4 +405,18 @@ class StokController extends Controller
         $writer->save('php://output');
         exit;
     }
+
+    public function export_pdf()
+     {
+        $stok = StokModel::select('stok_id', 'barang_id', 'user_id', 'stok_tanggal', 'stok_jumlah')
+          ->orderBy('stok_id')
+          ->with('barang', 'user')
+          ->get();
+         $pdf = Pdf::loadView('stok.export_pdf', ['stok' => $stok]);
+         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+         $pdf->render(); // Render the PDF as HTML - uncomment if you want to see the HTML output
+ 
+         return $pdf->stream('Data Stok' . date('Y-m-d H:i:s') . '.pdf');
+     }
 }

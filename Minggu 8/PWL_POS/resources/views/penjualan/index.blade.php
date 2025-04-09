@@ -7,6 +7,7 @@
             <div class="card-tools">
                  <button onclick="modalAction('{{ url('/penjualan/import') }}')" class="btn btn-info">Import Penjualan</button>
                  <a href="{{ url('/penjualan/export_excel') }}" class="btn btn-primary"><i class="fa fa-fileexcel"></i>Export Penjualan (Excel)</a>
+                 <a href="{{ url('/penjualan/export_pdf') }}" class="btn btn-warning"><i class="fa fa-filepdf"></i> Export Penjualan (PDF)</a>
                  <button onclick="modalAction('{{ url('penjualan/create_ajax') }}')" class="btn btn-success">Tambah Data Ajax</button>
             </div>
         </div>

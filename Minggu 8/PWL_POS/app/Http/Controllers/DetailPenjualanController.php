@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DetailPenjualanController extends Controller
 {
@@ -409,7 +410,7 @@ class DetailPenjualanController extends Controller
     public function export_excel()
     {
         // ambil data detail penjualan yang akan di export
-        $penjualan_detail = DetailPenjualanModel::select('penjualan_id', 'barang_id', 'harga', 'jumlah')
+        $penjualan_detail = DetailPenjualanModel::select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah')
             ->orderBy('detail_id')
             ->with('penjualan', 'barang')
             ->get();
@@ -419,26 +420,28 @@ class DetailPenjualanController extends Controller
         $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
 
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Kode Penjualan');
-        $sheet->setCellValue('C1', 'Nama Barang');
-        $sheet->setCellValue('D1', 'Harga');
-        $sheet->setCellValue('E1', 'Jumlah');
+        $sheet->setCellValue('B1', 'ID Detail Penjualan');
+        $sheet->setCellValue('C1', 'Kode Penjualan');
+        $sheet->setCellValue('D1', 'Nama Barang');
+        $sheet->setCellValue('E1', 'Harga');
+        $sheet->setCellValue('F1', 'Jumlah');
 
-        $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true); // bold header
 
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($penjualan_detail as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->penjualan->penjualan_kode); // ambil kode penjualan
-            $sheet->setCellValue('C' . $baris, $value->barang->barang_nama); // ambil nama barang
-            $sheet->setCellValue('D' . $baris, $value->harga); 
-            $sheet->setCellValue('E' . $baris, $value->jumlah); 
+            $sheet->setCellValue('B' . $baris, $value->detail_id); 
+            $sheet->setCellValue('C' . $baris, $value->penjualan->penjualan_kode); // ambil kode penjualan
+            $sheet->setCellValue('D' . $baris, $value->barang->barang_nama); // ambil nama barang
+            $sheet->setCellValue('E' . $baris, $value->harga); 
+            $sheet->setCellValue('F' . $baris, $value->jumlah); 
             $baris++;
             $no++;
         }
 
-        foreach (range('A', 'E') as $columnID) {
+        foreach (range('A', 'F') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
 
@@ -459,5 +462,19 @@ class DetailPenjualanController extends Controller
         $writer->save('php://output');
         exit;
     }
+
+    public function export_pdf()
+     {
+        $penjualan_detail = DetailPenjualanModel::select('detail_id', 'penjualan_id', 'barang_id', 'harga', 'jumlah')
+          ->orderBy('detail_id')
+          ->with('penjualan', 'barang')
+          ->get();
+         $pdf = Pdf::loadView('penjualan_detail.export_pdf', ['penjualan_detail' => $penjualan_detail]);
+         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+         $pdf->render(); // Render the PDF as HTML - uncomment if you want to see the HTML output
+ 
+         return $pdf->stream('Data Detail Penjualan' . date('Y-m-d H:i:s') . '.pdf');
+     }
 }
   

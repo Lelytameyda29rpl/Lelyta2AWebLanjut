@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenjualanController extends Controller
 {
@@ -358,7 +359,7 @@ class PenjualanController extends Controller
     public function export_excel()
     {
         // ambil data penjualan yang akan di export
-        $penjualan = PenjualanModel::select('user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal')
+        $penjualan = PenjualanModel::select('penjualan_id', 'user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal')
             ->orderBy('penjualan_id')
             ->with('user')
             ->get();
@@ -368,26 +369,28 @@ class PenjualanController extends Controller
         $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
 
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Nama User');
-        $sheet->setCellValue('C1', 'Pembeli');
-        $sheet->setCellValue('D1', 'Kode Penjualan');
-        $sheet->setCellValue('E1', 'Tanggal Penjualan');
+        $sheet->setCellValue('B1', 'ID Penjualan');
+        $sheet->setCellValue('C1', 'Nama User');
+        $sheet->setCellValue('D1', 'Pembeli');
+        $sheet->setCellValue('E1', 'Kode Penjualan');
+        $sheet->setCellValue('F1', 'Tanggal Penjualan');
 
-        $sheet->getStyle('A1:E1')->getFont()->setBold(true); // bold header
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true); // bold header
 
         $no = 1; // nomor data dimulai dari 1
         $baris = 2; // baris data dimulai dari baris ke 2
         foreach ($penjualan as $key => $value) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->user->nama); // ambil nama user
-            $sheet->setCellValue('C' . $baris, $value->pembeli);
-            $sheet->setCellValue('D' . $baris, $value->penjualan_kode); 
-            $sheet->setCellValue('E' . $baris, $value->penjualan_tanggal); 
+            $sheet->setCellValue('B' . $baris, $value->penjualan_id); 
+            $sheet->setCellValue('C' . $baris, $value->user->nama); // ambil nama user
+            $sheet->setCellValue('D' . $baris, $value->pembeli);
+            $sheet->setCellValue('E' . $baris, $value->penjualan_kode); 
+            $sheet->setCellValue('F' . $baris, $value->penjualan_tanggal); 
             $baris++;
             $no++;
         }
 
-        foreach (range('A', 'E') as $columnID) {
+        foreach (range('A', 'F') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
         }
 
@@ -408,5 +411,19 @@ class PenjualanController extends Controller
         $writer->save('php://output');
         exit;
     }
+
+    public function export_pdf()
+     {
+         $penjualan = PenjualanModel::select('penjualan_id', 'user_id', 'pembeli', 'penjualan_kode', 'penjualan_tanggal')
+          ->orderBy('penjualan_id')
+          ->with('user')
+          ->get();
+         $pdf = Pdf::loadView('penjualan.export_pdf', ['penjualan' => $penjualan]);
+         $pdf->setPaper('a4', 'portrait'); // set ukuran kertas dan orientasi
+         $pdf->setOption("isRemoteEnabled", true); // set true jika ada gambar dari url
+         $pdf->render(); // Render the PDF as HTML - uncomment if you want to see the HTML output
+ 
+         return $pdf->stream('Data Penjualan' . date('Y-m-d H:i:s') . '.pdf');
+     }
 }
   
