@@ -11,6 +11,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -339,5 +340,10 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
         Route::post('/import_ajax', [DetailPenjualanController::class, 'import_ajax']); // menyimpan import excel detail penjualan ajax
         Route::get('/export_excel', [DetailPenjualanController::class, 'export_excel']); // menampilkan halaman form export excel detail penjualan ajax
         Route::get('/export_pdf', [DetailPenjualanController::class, 'export_pdf']); // menampilkan halaman form export pdf detail penjualan
+    });
+
+    Route::group(['prefix' => 'profile'], function () {
+        Route::get('/', [ProfileController::class, 'index']);
+        Route::post('/update_photo', [ProfileController::class, 'update_photo']);
     });
 });
