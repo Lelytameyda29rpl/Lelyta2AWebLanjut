@@ -32,7 +32,7 @@
 
                 <div class="form-group">
                     <label for="stok_tanggal">Tanggal Stok</label>
-                    <input type="date" name="stok_tanggal" class="form-control" required>
+                    <input type="datetime-local" name="stok_tanggal" class="form-control" required>
                     <small class="text-danger error-text" id="error-stok_tanggal"></small>
                 </div>
 

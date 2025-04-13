@@ -74,7 +74,7 @@ class AuthController extends Controller
         $user->username = $request->username;
         $user->nama = $request->nama;
         $user->password = Hash::make($request->password);
-        $user->level_id = 3; // Level default (staff)
+        $user->level_id = 1; // Level default (admin)
 
         $user->save();
 

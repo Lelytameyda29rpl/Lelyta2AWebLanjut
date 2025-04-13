@@ -12,6 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class StokController extends Controller
 {
@@ -169,31 +170,39 @@ class StokController extends Controller
 
     public function store_ajax(Request $request)
     {
-        if (!$request->ajax()) {
-            return abort(403, 'Akses tidak diizinkan');
-        }
+    if (!$request->ajax()) {
+        return abort(403, 'Akses tidak diizinkan');
+    }
 
-        $validator = Validator::make($request->all(), [
-            'barang_id'     => 'required|exists:m_barang,barang_id',
-            'user_id'       => 'required|exists:m_user,user_id',
-            'stok_tanggal'  => 'required|date',
-            'stok_jumlah'   => 'required|numeric|min:1',
-        ]);
+    $validator = Validator::make($request->all(), [
+        'barang_id'     => 'required|exists:m_barang,barang_id',
+        'user_id'       => 'required|exists:m_user,user_id',
+        'stok_tanggal'  => 'required|date',
+        'stok_jumlah'   => 'required|numeric|min:1',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Validasi gagal',
-                'msgField'  => $validator->errors()
-            ]);
-        }
-
-        StokModel::create($request->all());
-
+    if ($validator->fails()) {
         return response()->json([
-            'status'  => true,
-            'message' => 'Data stok berhasil ditambahkan'
+            'status'    => false,
+            'message'   => 'Validasi gagal',
+            'msgField'  => $validator->errors()
         ]);
+    }
+
+    // Format tanggal setelah lolos validasi
+    $stokTanggal = Carbon::parse($request->stok_tanggal)->format('Y-m-d H:i:s');
+
+    StokModel::create([
+        'barang_id'     => $request->barang_id,
+        'user_id'       => $request->user_id,
+        'stok_tanggal'  => $stokTanggal,
+        'stok_jumlah'   => $request->stok_jumlah,
+    ]);
+
+    return response()->json([
+        'status'  => true,
+        'message' => 'Data stok berhasil ditambahkan'
+    ]);
     }
 
     public function edit_ajax($id)
@@ -206,47 +215,51 @@ class StokController extends Controller
 
     public function update_ajax(Request $request, $id)
     {
-        if (!$request->ajax()) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Akses tidak diizinkan (bukan AJAX)'
-            ], 403);
-        }
+    if (!$request->ajax()) {
+        return response()->json([
+            'status'  => false,
+            'message' => 'Akses tidak diizinkan (bukan AJAX)'
+        ], 403);
+    }
 
-        $validator = Validator::make($request->all(), [
-            'barang_id'     => 'required|exists:m_barang,barang_id',
-            'stok_tanggal'  => 'required|date',
-            'stok_jumlah'   => 'required|numeric|min:1',
+    // Validasi input
+    $validator = Validator::make($request->all(), [
+        'barang_id'     => 'required|exists:m_barang,barang_id',
+        'stok_tanggal'  => 'required|date',
+        'stok_jumlah'   => 'required|numeric|min:1',
+    ]);
+
+    if ($validator->fails()) {
+        return response()->json([
+            'status'    => false,
+            'message'   => 'Validasi gagal',
+            'msgField'  => $validator->errors()
+        ]);
+    }
+
+    try {
+        // Format stok_tanggal menggunakan Carbon
+        $stokTanggal = Carbon::parse($request->stok_tanggal)->format('Y-m-d H:i:s');
+
+        // Temukan data stok dan update
+        $stok = StokModel::findOrFail($id);
+        $stok->update([
+            'barang_id'     => $request->barang_id,
+            'stok_tanggal'  => $stokTanggal, // Gunakan stokTanggal yang sudah diformat
+            'stok_jumlah'   => $request->stok_jumlah,
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Validasi gagal',
-                'msgField'  => $validator->errors()
-            ]);
-        }
-
-        try {
-            $stok = StokModel::findOrFail($id);
-            $stok->update([
-                'barang_id'     => $request->barang_id,
-                'stok_tanggal'  => $request->stok_tanggal,
-                'stok_jumlah'   => $request->stok_jumlah,
-                //'user_id'       => Auth::id(),
-            ]);
-
-            return response()->json([
-                'status'  => true,
-                'message' => 'Data stok berhasil diupdate'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Terjadi kesalahan saat mengupdate data'
-            ]);
-        }
+        return response()->json([
+            'status'  => true,
+            'message' => 'Data stok berhasil diupdate'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status'  => false,
+            'message' => 'Terjadi kesalahan saat mengupdate data'
+        ]);
     }
+}
 
     public function confirm_ajax(string $id)
     {
