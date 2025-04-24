@@ -20,30 +20,35 @@
         @endif
 
         <div class="row mb-3">
-             <div class="col-md-6">
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Filter:</label>
-                    <div class="col-sm-9">
-                        <select class="form-control" name="barang_id" id="barang_id">
-                            <option value="">- Semua Barang -</option>
-                            @foreach($barang as $item)
-                                <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-text text-muted">Nama Barang</small>
-                    </div>
-                    <div class="col-3">
-                        <select class="form-control" name="user_id" id="user_id">
-                            <option value="">- Semua User -</option>
-                            @foreach($user as $item)
-                                <option value="{{ $item->user_id }}">{{ $item->nama }}</option>
-                            @endforeach
-                        </select>
-                        <small class="form-text text-muted">User Input</small>
-                    </div>
+    <label class="col-sm-2 col-form-label">Filter:</label>
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <select class="form-control" name="barang_id" id="barang_id">
+                        <option value="">- Semua Barang -</option>
+                        @foreach($barang as $item)
+                            <option value="{{ $item->barang_id }}">{{ $item->barang_nama }}</option>
+                        @endforeach
+                    </select>
+                    <small class="form-text text-muted">Nama Barang</small>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <select class="form-control" name="user_id" id="user_id">
+                        <option value="">- Semua User -</option>
+                        @foreach($user as $item)
+                            <option value="{{ $item->user_id }}">{{ $item->nama }}</option>
+                        @endforeach
+                    </select>
+                    <small class="form-text text-muted">User Input</small>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
 
         <table class="table table-bordered table-striped table-hover table-sm" id="table_stok">
             <thead>
